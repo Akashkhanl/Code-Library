@@ -1,4 +1,4 @@
-class TopologicaSort {
+class TopologicalSort {
 
     vector<int>kahnA(int n,vector<vector<int>>&adj) {
         vector<int>inDegree(n,0);
