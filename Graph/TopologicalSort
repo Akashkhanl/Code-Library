@@ -39,3 +39,57 @@ class TopologicalSort {
 
 
 };
+
+// dfs-base 
+class TopologicalSort {
+
+    private: 
+        vector<bool>visited;
+        vector<bool>inStack;
+        stack<int>st;
+
+        bool dfs(int u,vector<vector<int>>&adj) {
+            visited[u]=true;
+            inStack[u]=true;
+
+            for(int v:adj[u]) {
+
+                if(!visited[v]) {
+
+                    if(dfs(v,adj)) {
+                        return true;
+                    }
+                }
+                else if(inStack[v]) {
+                    return;
+                }
+            }
+            inStack[u]=false;
+            st.push(u);
+            return false;
+        }
+        public: 
+            vector<int>topo(int n,vector<vector<int>>&adj) {
+
+                visited.assign(n,false);
+                inStack.assign(n,false);
+                while(!st.empty()) st.pop();
+
+                for(int i =0;i<n;++i) {
+                    if(!visited[i]) {
+                        if(dfs(i,adj)) {
+                            return {};
+                        }
+                    }
+                }
+
+                vector<int>res;
+                while(!st.empty()) {
+                    res.push_back(st.top());
+                    st.pop();
+                }
+                return res;
+            }
+      
+};
+
