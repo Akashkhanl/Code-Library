@@ -1,0 +1,21 @@
+bool cycle(vector<vector<int>>& g) {
+    int n = g.size();
+    vector<int> state(n, 0); // 0=unvisited, 1=visiting, 2=finished
+    
+    function<bool(int)> dfs = [&](int x) -> bool {
+        state[x] = 1; // visiting
+        
+        for(int y : g[x]) {
+            if(state[y] == 1) return true; // back edge
+            if(state[y] == 0 && dfs(y)) return true;
+        }
+        
+        state[x] = 2; // finished
+        return false;
+    };
+    
+    for(int i = 0; i < n; i++) {
+        if(state[i] == 0 && dfs(i)) return true;
+    }
+    return false;
+}
